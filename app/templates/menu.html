@@ -1,0 +1,7 @@
+<ul>
+	{% for item in menu %}
+		<li>
+			<a href="{{item.url}}" {% if item.active%}style="color:red;"{%endif%}>{{item.name}}</a>
+		</li>
+	{%endfor%}
+</ul>

@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div>
+			<nav class="menu-cat menu-hor">
+				<ul>
+					<li>
+						<a href="{% url "listblog" %}">All</a>
+					</li>
+					{% for categoria in categorias %}
+					<li>
+						<a href="{% url "listblogcat" categoria.pk %}">{{categoria.titulo}}</a>
+					</li>
+					{%endfor%}
+					
+				</ul>
+			</nav>
+			{% include 'menu.html' %}
+		</div>
+		
+		<section class="content">
+			<h3 class="name-page">List blog</h4>
+				<ul class="list">
+					
+						{% for entrada in entradas %}
+						<li>
+						<article>
+							<div>
+							<h4 class="ent-title">{{entrada.titulo}}</h4>
+								<div class="ent-fecha">Creat at: <a herf="#">{{entrada.fecha}}</a></div>
+							</div>
+							<div class="ent-category">-<a herf="#">{{entrada.categoria}}</a>-</div>
+							<div class="ent-content">{{entrada.contenido|truncatechars:400}}</div>
+							<div class="ent-show">
+								<a href="{% url "detailblog" entrada.pk %}">read more ></a></a>
+								<div class="ent-comments">
+									Comments: {{entrada.total_comentario}}
+								</div>
+							</div>
+							
+						</article>
+						
+						{% endfor %}
+						
+					</li>
+				</ul>
+				
+				<nav style="text-align: right; margin-right: 10px;margin-bottom: 20px;">
+					{% if entradas.has_previous%}
+					<div class="ent-show">
+						<a href="?page={{ entradas.previous_page_number }}">< Previous</a>
+					</div>
+					{%endif%}
+					<span>page numer {{entradas.number}} of {{entradas.paginator.num_pages}}</span>
+					{% if entradas.has_next%}
+					<div class="ent-show">
+						<a  href="?page={{ entradas.next_page_number }}">Next ></a>
+					</div>
+					{%endif%}
+				</nav>
+		</section>
+		<section class="sidebar-left">
+		</section>
+		{{ block.super }}
+{% endblock %}
